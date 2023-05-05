@@ -1,0 +1,20 @@
+
+.block-editor-block-list__block.wp-block.wp-block-create-block-tabs {
+	border: 1px dotted  #bababa;
+	background: #fff;
+	padding: 10px;
+	h2{
+		font-size: 1em;
+	}
+	.wp-block-create-block-tab {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid #333;
+		padding: 5px;
+		margin-bottom: 10px;
+	}
+    .block-editor-inner-blocks{
+		background-color: #fff;
+	}
+}
+

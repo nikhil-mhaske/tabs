@@ -1,0 +1,23 @@
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/editor.scss ***!
+  \****************************************************************************************************************************************************************************************************************************************/
+.block-editor-block-list__block.wp-block.wp-block-create-block-tabs {
+  border: 1px dotted #bababa;
+  background: #fff;
+  padding: 10px;
+}
+.block-editor-block-list__block.wp-block.wp-block-create-block-tabs h2 {
+  font-size: 1em;
+}
+.block-editor-block-list__block.wp-block.wp-block-create-block-tabs .wp-block-create-block-tab {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #333;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+.block-editor-block-list__block.wp-block.wp-block-create-block-tabs .block-editor-inner-blocks {
+  background-color: #fff;
+}
+
+/*# sourceMappingURL=index.css.map*/

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "create-block/tabs",
+  "version": "0.1.0",
+  "title": "Content Tabs",
+  "category": "widgets",
+  "icon": "welcome-widgets-menus",
+  "keywords": [
+    "Tabs"
+  ],
+  "description": "Create Block to showcase content in Tabs",
+  "supports": {
+    "html": false,
+    "jsx": true
+  },
+  "attributes": {
+    "tabLabelsArray": {
+      "type": "array",
+      "default": []
+    },
+    "updateChild": {
+      "type": "boolean",
+      "default": false
+    },
+    "sideTabLayout": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "textdomain": "tabs",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "script": "file:./frontend.js"
+}
