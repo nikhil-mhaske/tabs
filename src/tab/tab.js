@@ -5,10 +5,34 @@ import { __ } from "@wordpress/i18n";
 import { registerBlockType } from "@wordpress/blocks";
 import { TextControl, PanelBody, Dashicon } from "@wordpress/components";
 import { subscribe } from "@wordpress/data";
-import {} from "@wordpress/icons";
 
 import * as tablerIcons from "@tabler/icons-react";
 
+
+const IconOptions = ({ tablerIconNames, onSelectTabIcon, activeIcon }) => {
+	return (
+	  <div className="icons">
+		{tablerIconNames.map((iconName) => {
+		  const IconComponent = tablerIcons[iconName];
+		  return (
+			<button
+			  key={iconName}
+			  className={`icon-option ${
+				activeIcon === iconName ? "active" : ""
+			  }`}
+			  onClick={() => onSelectTabIcon(iconName)}
+			>
+				{iconName}
+
+			  	{/* For Displaying Icon */}
+				{/* <IconComponent /> */}
+			</button>
+		  );
+		})}
+	  </div>
+	);
+  };
+  
 registerBlockType("create-block/tab", {
 	title: "Tab",
 	icon: "welcome-add-page",
@@ -34,6 +58,8 @@ registerBlockType("create-block/tab", {
 			attributes: { tabLabel, tabIcon, blockIndex },
 			setAttributes,
 		} = props;
+
+		const tablerIconNames = Object.keys(tablerIcons);
 
 		const parentBlockID = wp.data
 			.select("core/block-editor")
@@ -72,35 +98,7 @@ registerBlockType("create-block/tab", {
 		const onSelectTabIcon = (icon) => {
 			setAttributes({ tabIcon: icon });
 		};
-
-		// Define an array of Dashicon icons to display
-		const dashicons = [
-			"plus",
-			"admin-site",
-			"admin-post",
-			"admin-media",
-			"admin-links",
-			"admin-page",
-			"admin-comments",
-			"admin-plugins",
-			"admin-users",
-			"admin-tools",
-			"admin-settings",
-			"format-image",
-			"format-gallery",
-			"format-video",
-			"format-audio",
-			"format-quote",
-			"format-chat",
-			"category",
-			"tag",
-			"admin-home",
-			"welcome-learn-more",
-			"welcome-view-site",
-			"welcome-widgets-menus",
-			"welcome-write-blog",
-		];
-
+		
 		return (
 			<div className={props.className}>
 				<div className="tab-title">
@@ -115,16 +113,11 @@ registerBlockType("create-block/tab", {
 				</div>
 				<InspectorControls>
 					<PanelBody title="Icon Settings">
-						<div className="icons">
-							{dashicons.map((icon) => (
-								<button
-									className={`dashicons dashicons-${icon} tab-icon ${
-										icon === tabIcon ? "selected" : ""
-									}`}
-									onClick={() => onSelectTabIcon(icon)}
-								/>
-							))}
-						</div>
+						<IconOptions
+							tablerIconNames={tablerIconNames}
+							onSelectTabIcon={onSelectTabIcon}
+							activeIcon={tabIcon}
+						/>
 					</PanelBody>
 				</InspectorControls>
 				<div>
