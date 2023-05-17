@@ -3,8 +3,11 @@ import { useSelect } from "@wordpress/data";
 
 import { __ } from "@wordpress/i18n";
 import { registerBlockType } from "@wordpress/blocks";
-import { TextControl, PanelBody, SelectControl } from "@wordpress/components";
+import { TextControl, PanelBody, Dashicon } from "@wordpress/components";
 import { subscribe } from "@wordpress/data";
+import {} from "@wordpress/icons";
+
+import * as tablerIcons from "@tabler/icons-react";
 
 registerBlockType("create-block/tab", {
 	title: "Tab",
@@ -66,37 +69,66 @@ registerBlockType("create-block/tab", {
 				.updateBlockAttributes(parentBlockID, { updateChild: true });
 		};
 
+		const onSelectTabIcon = (icon) => {
+			setAttributes({ tabIcon: icon });
+		};
+
+		// Define an array of Dashicon icons to display
+		const dashicons = [
+			"plus",
+			"admin-site",
+			"admin-post",
+			"admin-media",
+			"admin-links",
+			"admin-page",
+			"admin-comments",
+			"admin-plugins",
+			"admin-users",
+			"admin-tools",
+			"admin-settings",
+			"format-image",
+			"format-gallery",
+			"format-video",
+			"format-audio",
+			"format-quote",
+			"format-chat",
+			"category",
+			"tag",
+			"admin-home",
+			"welcome-learn-more",
+			"welcome-view-site",
+			"welcome-widgets-menus",
+			"welcome-write-blog",
+		];
+
 		return (
 			<div className={props.className}>
 				<div className="tab-title">
-				<span className={`dashicons dashicons-${tabIcon} tab-icon`} />
-				<TextControl
-					className={"tab-label_input"}
-					value={tabLabel}
-					onChange={onChangeTabLabel}
-					placeholder="Add Tab Label"
-					type="text"
-				/>
+					<span className={`dashicons dashicons-${tabIcon} tab-icon`} />
+					<TextControl
+						className={"tab-label_input"}
+						value={tabLabel}
+						onChange={onChangeTabLabel}
+						placeholder="Add Tab Label"
+						type="text"
+					/>
 				</div>
 				<InspectorControls>
 					<PanelBody title="Icon Settings">
-						<SelectControl
-							label="Select Icon"
-							options={[
-								{ label: "Default", value: "plus" },
-								{ label: "Admin Tools", value: "admin-tools" },
-								{ label: "Archive", value: "archive" },
-								// Add more options here
-							]}
-							value={tabIcon}
-							onChange={(value) => {
-								setAttributes({ tabIcon: value });
-							}}
-						/>
+						<div className="icons">
+							{dashicons.map((icon) => (
+								<button
+									className={`dashicons dashicons-${icon} tab-icon ${
+										icon === tabIcon ? "selected" : ""
+									}`}
+									onClick={() => onSelectTabIcon(icon)}
+								/>
+							))}
+						</div>
 					</PanelBody>
 				</InspectorControls>
 				<div>
-				<InnerBlocks placeholder="Tab Content Goes here..." />
+					<InnerBlocks placeholder="Tab Content Goes here..." />
 				</div>
 			</div>
 		);

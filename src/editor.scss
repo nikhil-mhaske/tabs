@@ -22,6 +22,7 @@
 			margin-right: 5px;
 			font-size: 18px;
 		}
+		
 	
 		.tab-label_input {
 			flex-grow: 1;
@@ -33,4 +34,22 @@
 		background-color: #fff;
 		margin-top: 10px;
 	}
+
+	
+}
+.icons{
+	display: flex;
+	flex-wrap: wrap;
+}
+button.dashicons {
+    width: 30px;
+	height: 30px;
+	padding: 3px;
+	margin: 5px;
+	background-color: transparent;
+	border: 1px;
+}
+.tab-icon.selected{
+	background-color: #21759b;
+	color: white;
 }
