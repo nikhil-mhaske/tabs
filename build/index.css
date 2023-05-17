@@ -16,8 +16,22 @@
   padding: 5px;
   margin-bottom: 10px;
 }
+.block-editor-block-list__block.wp-block.wp-block-create-block-tabs .wp-block-create-block-tab .tab-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* add this line */
+}
+.block-editor-block-list__block.wp-block.wp-block-create-block-tabs .wp-block-create-block-tab .tab-icon {
+  margin-right: 5px;
+  font-size: 18px;
+}
+.block-editor-block-list__block.wp-block.wp-block-create-block-tabs .wp-block-create-block-tab .tab-label_input {
+  flex-grow: 1;
+  margin-right: 10px;
+}
 .block-editor-block-list__block.wp-block.wp-block-create-block-tabs .block-editor-inner-blocks {
   background-color: #fff;
+  margin-top: 10px;
 }
 
 /*# sourceMappingURL=index.css.map*/

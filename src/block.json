@@ -24,6 +24,10 @@
 		"sideTabLayout":{
 			"type": "boolean",
 			"default": false
+		},
+		"tabIconArray": {
+			"type": "array",
+			"default": []
 		}
 	},
 	"textdomain": "tabs",

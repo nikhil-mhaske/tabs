@@ -41,10 +41,10 @@ function Edit(props) {
   const {
     tabLabelsArray,
     updateChild,
-    sideTabLayout
+    sideTabLayout,
+    tabIconArray
   } = attributes;
   const buildTabLabelsArray = () => {
-    //function gets child block attributes and saves as an array to parent attributes
     const parentBlockID = props.clientId;
     const {
       innerBlockCount
@@ -52,17 +52,29 @@ function Edit(props) {
       innerBlockCount: select("core/block-editor").getBlockCount(parentBlockID)
     }));
     var tabLabels = [];
+    var tabIcons = [];
     for (let block = 0; block < innerBlockCount; block++) {
       let tabLabel = wp.data.select("core/block-editor").getBlocks(parentBlockID)[block].attributes.tabLabel;
+      let tabIcon = wp.data.select("core/block-editor").getBlocks(parentBlockID)[block].attributes.tabIcon;
       tabLabels.push(tabLabel);
+      tabIcons.push(tabIcon);
     }
-    return tabLabels;
+    return {
+      tabLabels,
+      tabIcons
+    };
   };
-  var labelsArray = buildTabLabelsArray();
-  var labelLengthChange = labelsArray.length !== tabLabelsArray.length;
+  var {
+    tabLabels,
+    tabIcons
+  } = buildTabLabelsArray();
+  var labelLengthChange = tabLabels.length !== tabLabelsArray.length || tabIcons.length !== tabIconArray.length;
   if (labelLengthChange || updateChild) {
     setAttributes({
-      tabLabelsArray: labelsArray
+      tabLabelsArray: tabLabels
+    });
+    setAttributes({
+      tabIconArray: tabIcons
     });
     setAttributes({
       updateChild: false
@@ -157,7 +169,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
 
-//import
 
 function save(props) {
   const {
@@ -165,26 +176,27 @@ function save(props) {
   } = props;
   const {
     tabLabelsArray,
-    sideTabLayout
+    sideTabLayout,
+    tabIconArray
   } = attributes;
-  var blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
-  if (sideTabLayout) {
-    blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save({
-      className: "side-tab-layout"
-    });
-  }
+  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save({
+    className: sideTabLayout ? "side-tab-layout" : ""
+  });
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
     className: "tab-labels",
     role: "tablist",
     "aria-label": "tabbed content"
   }, tabLabelsArray.map((label, i) => {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
-      className: i == 0 ? "tab-label active" : "tab-label",
+      key: i,
+      className: i === 0 ? "tab-label active" : "tab-label",
       role: "tab",
-      "aria-selected": i == 0 ? "true" : "false",
+      "aria-selected": i === 0 ? "true" : "false",
       "aria-controls": label,
       tabindex: "0"
-    }, label);
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+      className: `dashicons dashicons-${tabIconArray[i]} tab-icon`
+    }), label);
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "tab-content"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, null)));
@@ -228,6 +240,10 @@ __webpack_require__.r(__webpack_exports__);
       type: "string",
       default: ""
     },
+    tabIcon: {
+      type: "string",
+      default: "plus"
+    },
     blockIndex: {
       type: "number",
       default: ""
@@ -237,6 +253,7 @@ __webpack_require__.r(__webpack_exports__);
     const {
       attributes: {
         tabLabel,
+        tabIcon,
         blockIndex
       },
       setAttributes
@@ -270,20 +287,48 @@ __webpack_require__.r(__webpack_exports__);
     };
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: props.className
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "tab-title"
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+      className: `dashicons dashicons-${tabIcon} tab-icon`
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, {
       className: "tab-label_input",
       value: tabLabel,
       onChange: onChangeTabLabel,
       placeholder: "Add Tab Label",
       type: "text"
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks, {
+    })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.PanelBody, {
+      title: "Icon Settings"
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.SelectControl, {
+      label: "Select Icon",
+      options: [{
+        label: "Default",
+        value: "plus"
+      }, {
+        label: "Admin Tools",
+        value: "admin-tools"
+      }, {
+        label: "Archive",
+        value: "archive"
+      }
+      // Add more options here
+      ],
+
+      value: tabIcon,
+      onChange: value => {
+        setAttributes({
+          tabIcon: value
+        });
+      }
+    }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks, {
       placeholder: "Tab Content Goes here..."
-    }));
+    })));
   },
   save: props => {
     const {
       attributes: {
-        tabLabel
+        tabLabel,
+        tabIcon
       }
     } = props;
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -386,7 +431,7 @@ module.exports = window["wp"]["i18n"];
   \************************/
 /***/ (function(module) {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/tabs","version":"0.1.0","title":"Content Tabs","category":"widgets","icon":"welcome-widgets-menus","keywords":["Tabs"],"description":"Create Block to showcase content in Tabs","supports":{"html":false,"jsx":true},"attributes":{"tabLabelsArray":{"type":"array","default":[]},"updateChild":{"type":"boolean","default":false},"sideTabLayout":{"type":"boolean","default":false}},"textdomain":"tabs","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","script":"file:./frontend.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"create-block/tabs","version":"0.1.0","title":"Content Tabs","category":"widgets","icon":"welcome-widgets-menus","keywords":["Tabs"],"description":"Create Block to showcase content in Tabs","supports":{"html":false,"jsx":true},"attributes":{"tabLabelsArray":{"type":"array","default":[]},"updateChild":{"type":"boolean","default":false},"sideTabLayout":{"type":"boolean","default":false},"tabIconArray":{"type":"array","default":[]}},"textdomain":"tabs","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","script":"file:./frontend.js"}');
 
 /***/ })
 

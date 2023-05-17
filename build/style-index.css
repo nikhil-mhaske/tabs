@@ -17,6 +17,9 @@
 .wp-block-create-block-tabs .tab-labels .tab-label.active, .wp-block-create-block-tabs .tab-labels .tab-label:focus, .wp-block-create-block-tabs .tab-labels .tab-label:hover {
   border-bottom: blue 4px solid;
 }
+.wp-block-create-block-tabs .tab-labels .tab-label .tab-icon {
+  margin-right: 5px;
+}
 .wp-block-create-block-tabs .tab-content .tab-panel {
   display: none;
 }

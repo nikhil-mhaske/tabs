@@ -1,18 +1,12 @@
-//import
 import { useBlockProps, InnerBlocks } from "@wordpress/block-editor";
 
-
 export default function save(props) {
-	const { attributes} = props;
-	const { tabLabelsArray, sideTabLayout } = attributes;
+	const { attributes } = props;
+	const { tabLabelsArray, sideTabLayout, tabIconArray } = attributes;
 
-	var blockProps = useBlockProps.save();
-
-	if (sideTabLayout) {
-		blockProps = useBlockProps.save({
-			className: "side-tab-layout",
-		});
-	}
+	const blockProps = useBlockProps.save({
+		className: sideTabLayout ? "side-tab-layout" : "",
+	});
 
 	return (
 		<div {...blockProps}>
@@ -20,12 +14,14 @@ export default function save(props) {
 				{tabLabelsArray.map((label, i) => {
 					return (
 						<li
-							className={i == 0 ? "tab-label active" : "tab-label"}
+							key={i}
+							className={i === 0 ? "tab-label active" : "tab-label"}
 							role="tab"
-							aria-selected={i == 0 ? "true" : "false"}
+							aria-selected={i === 0 ? "true" : "false"}
 							aria-controls={label}
 							tabindex="0"
 						>
+							<span className={`dashicons dashicons-${tabIconArray[i]} tab-icon`} />
 							{label}
 						</li>
 					);

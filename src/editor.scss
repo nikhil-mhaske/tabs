@@ -1,9 +1,8 @@
-
 .block-editor-block-list__block.wp-block.wp-block-create-block-tabs {
-	border: 1px dotted  #bababa;
+	border: 1px dotted #bababa;
 	background: #fff;
 	padding: 10px;
-	h2{
+	h2 {
 		font-size: 1em;
 	}
 	.wp-block-create-block-tab {
@@ -12,9 +11,26 @@
 		border: 1px solid #333;
 		padding: 5px;
 		margin-bottom: 10px;
+		
+		.tab-title {
+			display: flex;
+			flex-direction: row;
+			align-items: center; /* add this line */
+		}
+		
+		.tab-icon {
+			margin-right: 5px;
+			font-size: 18px;
+		}
+	
+		.tab-label_input {
+			flex-grow: 1;
+			margin-right: 10px;
+		}
 	}
-    .block-editor-inner-blocks{
+	
+	.block-editor-inner-blocks {
 		background-color: #fff;
+		margin-top: 10px;
 	}
 }
-
