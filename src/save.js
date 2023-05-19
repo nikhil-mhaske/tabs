@@ -1,3 +1,5 @@
+import * as tablerIcons from '@tabler/icons-react';
+
 import { useBlockProps, InnerBlocks } from "@wordpress/block-editor";
 
 export default function save(props) {
@@ -21,7 +23,8 @@ export default function save(props) {
 							aria-controls={label}
 							tabindex="0"
 						>
-							<span className={`dashicons dashicons-${tabIconArray[i]} tab-icon`} />
+							{tablerIcons[tabIconArray[i]] && createElement(tablerIcons[tabIconArray[i]], { className: 'tab-icon' })}
+
 							{label}
 						</li>
 					);

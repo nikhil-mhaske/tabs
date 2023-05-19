@@ -1,38 +1,46 @@
 import { InnerBlocks, InspectorControls } from "@wordpress/block-editor";
-import { useSelect } from "@wordpress/data";
-
 import { __ } from "@wordpress/i18n";
 import { registerBlockType } from "@wordpress/blocks";
-import { TextControl, PanelBody, Dashicon } from "@wordpress/components";
+import { TextControl, PanelBody } from "@wordpress/components";
 import { subscribe } from "@wordpress/data";
-
 import * as tablerIcons from "@tabler/icons-react";
-
+import { useState } from "react";
 
 const IconOptions = ({ tablerIconNames, onSelectTabIcon, activeIcon }) => {
-	return (
-	  <div className="icons">
-		{tablerIconNames.map((iconName) => {
-		  const IconComponent = tablerIcons[iconName];
-		  return (
-			<button
-			  key={iconName}
-			  className={`icon-option ${
-				activeIcon === iconName ? "active" : ""
-			  }`}
-			  onClick={() => onSelectTabIcon(iconName)}
-			>
-				{iconName}
+	const [searchTerm, setSearchTerm] = useState("");
 
-			  	{/* For Displaying Icon */}
-				{/* <IconComponent /> */}
-			</button>
-		  );
-		})}
-	  </div>
+	const filteredIcons = tablerIconNames.filter((iconName) =>
+		iconName.toLowerCase().includes(searchTerm.toLowerCase())
 	);
-  };
-  
+
+	const handleSearch = (event) => {
+		setSearchTerm(event.target.value);
+	};
+
+	return (
+		<div className="icons">
+			<input
+				type="text"
+				placeholder="Search Icons..."
+				value={searchTerm}
+				onChange={handleSearch}
+			/>
+			{filteredIcons.map((iconName) => {
+				const IconComponent = tablerIcons[iconName];
+				return (
+					<button
+						key={iconName}
+						className={`icon-option ${activeIcon === iconName ? "active" : ""}`}
+						onClick={() => onSelectTabIcon(iconName)}
+					>
+						{activeIcon === iconName && <IconComponent />}
+					</button>
+				);
+			})}
+		</div>
+	);
+};
+
 registerBlockType("create-block/tab", {
 	title: "Tab",
 	icon: "welcome-add-page",
@@ -60,6 +68,8 @@ registerBlockType("create-block/tab", {
 		} = props;
 
 		const tablerIconNames = Object.keys(tablerIcons);
+
+		const TabIconComponent = tablerIcons[tabIcon];
 
 		const parentBlockID = wp.data
 			.select("core/block-editor")
@@ -97,12 +107,22 @@ registerBlockType("create-block/tab", {
 
 		const onSelectTabIcon = (icon) => {
 			setAttributes({ tabIcon: icon });
+
+			const parentBlockID = wp.data
+				.select("core/block-editor")
+				.getBlockParentsByBlockName(props.clientId, ["create-block/tabs"]);
+
+			wp.data
+				.dispatch("core/block-editor")
+				.updateBlockAttributes(parentBlockID, {
+					updateChild: true,
+				});
 		};
-		
+
 		return (
 			<div className={props.className}>
 				<div className="tab-title">
-					<span className={`dashicons dashicons-${tabIcon} tab-icon`} />
+					{TabIconComponent && <TabIconComponent className="tab-icon" />}
 					<TextControl
 						className={"tab-label_input"}
 						value={tabLabel}
