@@ -39,17 +39,25 @@
   flex-wrap: wrap;
 }
 
-button.dashicons {
-  width: 30px;
-  height: 30px;
-  padding: 3px;
-  margin: 5px;
-  background-color: transparent;
-  border: 1px;
+.icons input {
+  width: 100%;
+  margin: 5px 0px;
 }
 
-.tab-icon.selected {
-  background-color: #21759b;
+.icons button {
+  margin: 5px;
+  padding: 2px;
+  background-color: transparent;
+  border: none;
+}
+
+.icon-option.active {
+  background-color: #0091bd;
+  color: white;
+}
+
+.icon-option.hovered {
+  background-color: #00a0d2;
   color: white;
 }
 

@@ -8,38 +8,58 @@ import { useState } from "react";
 
 const IconOptions = ({ tablerIconNames, onSelectTabIcon, activeIcon }) => {
 	const [searchTerm, setSearchTerm] = useState("");
-
-	const filteredIcons = tablerIconNames.filter((iconName) =>
+	const [hoveredIcon, setHoveredIcon] = useState(null);
+  
+	const filteredIcons = tablerIconNames
+	  .filter((iconName) =>
 		iconName.toLowerCase().includes(searchTerm.toLowerCase())
-	);
-
+	  )
+	  .slice(0, 20);
+  
 	const handleSearch = (event) => {
-		setSearchTerm(event.target.value);
+	  setSearchTerm(event.target.value);
 	};
-
+  
+	const handleIconHover = (iconName) => {
+	  setHoveredIcon(iconName);
+	};
+  
+	const handleIconBlur = () => {
+	  setHoveredIcon(null);
+	};
+  
 	return (
-		<div className="icons">
-			<input
-				type="text"
-				placeholder="Search Icons..."
-				value={searchTerm}
-				onChange={handleSearch}
-			/>
-			{filteredIcons.map((iconName) => {
-				const IconComponent = tablerIcons[iconName];
-				return (
-					<button
-						key={iconName}
-						className={`icon-option ${activeIcon === iconName ? "active" : ""}`}
-						onClick={() => onSelectTabIcon(iconName)}
-					>
-						{activeIcon === iconName && <IconComponent />}
-					</button>
-				);
-			})}
-		</div>
+	  <div className="icons">
+		<input
+		  type="text"
+		  placeholder="Search Icons..."
+		  value={searchTerm}
+		  onChange={handleSearch}
+		/>
+		{filteredIcons.map((iconName) => {
+		  const IconComponent = tablerIcons[iconName];
+		  const isActive = activeIcon === iconName;
+		  const isHovered = hoveredIcon === iconName;
+		  const iconClass = `icon-option ${isActive ? "active" : ""} ${
+			isHovered ? "hovered" : ""
+		  }`;
+  
+		  return (
+			<button
+			  key={iconName}
+			  className={iconClass}
+			  onClick={() => onSelectTabIcon(iconName)}
+			  onMouseEnter={() => handleIconHover(iconName)}
+			  onMouseLeave={handleIconBlur}
+			>
+			  {<IconComponent />}
+			</button>
+		  );
+		})}
+	  </div>
 	);
-};
+  };
+  
 
 registerBlockType("create-block/tab", {
 	title: "Tab",
