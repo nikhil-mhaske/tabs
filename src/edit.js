@@ -18,6 +18,7 @@ export default function Edit(props) {
 	const { attributes, setAttributes } = props;
 	const { tabLabelsArray, updateChild, sideTabLayout, tabIconArray } = attributes;
 
+	//called to build the tabLabelsArray
 	const buildTabLabelsArray = () => {
 		const parentBlockID = props.clientId;
 		const { innerBlockCount } = useSelect((select) => ({
@@ -25,23 +26,40 @@ export default function Edit(props) {
 		}));
 
 		var tabLabels = [];
-		var tabIcons = [];
 
 		for (let block = 0; block < innerBlockCount; block++) {
 			let tabLabel = wp.data
 				.select("core/block-editor")
 				.getBlocks(parentBlockID)[block].attributes.tabLabel;
+			tabLabels.push(tabLabel);
+		}
+
+		return tabLabels;
+	};
+	var tabLabels = buildTabLabelsArray();
+
+	//called to build the tabIconsArray
+	const buildTabIconsArray = () => {
+		const parentBlockID = props.clientId;
+		const { innerBlockCount } = useSelect((select) => ({
+			innerBlockCount: select("core/block-editor").getBlockCount(parentBlockID),
+		}));
+
+		var tabIcons = [];
+
+		for (let block = 0; block < innerBlockCount; block++) {
+			
 			let tabIcon = wp.data
 				.select("core/block-editor")
 				.getBlocks(parentBlockID)[block].attributes.tabIcon;
-			tabLabels.push(tabLabel);
 			tabIcons.push(tabIcon);
 		}
 
-		return { tabLabels, tabIcons };
+		return tabIcons;
 	};
+	var tabIcons  = buildTabIconsArray();
 
-	var { tabLabels, tabIcons } = buildTabLabelsArray();
+	//check new tab added/ removed
 	var labelLengthChange =
 		tabLabels.length !== tabLabelsArray.length ||
 		tabIcons.length !== tabIconArray.length;

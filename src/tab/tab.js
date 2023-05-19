@@ -73,7 +73,7 @@ registerBlockType("create-block/tab", {
 		},
 		tabIcon: {
 			type: "string",
-			default: "plus",
+			default: "",
 		},
 		blockIndex: {
 			type: "number",
